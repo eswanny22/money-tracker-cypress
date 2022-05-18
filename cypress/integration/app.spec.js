@@ -5,7 +5,7 @@ describe("Money Tracker", () => {
         indexedDB.deleteDatabase("_pouch_accounts")
         indexedDB.deleteDatabase("_pouch_transactions")
         indexedDB.deleteDatabase("_pouch_tags")
-        cy.visit("http://localhost:3000", {timeout: 30000})
+        cy.visit("http://localhost:3000", {timeout: 300000})
     });
 
     it("adds an account", () => {
