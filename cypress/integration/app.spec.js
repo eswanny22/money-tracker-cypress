@@ -18,7 +18,7 @@ describe("Money Tracker UI Tests", () => {
         cy.get('div[role*="combobox"]').type("food{enter}")
         cy.get('input[placeholder*="Note"]').type("fancy dinner")
         cy.contains('Add Expense').click()
-        cy.get('div[class*="transaction-item"]').should(($t) => {
+        cy.get('.transaction-item').should(($t) => {
             expect($t).to.contain('100')
             expect($t).to.contain('food')
             expect($t).to.contain('fancy dinner')
@@ -31,10 +31,27 @@ describe("Money Tracker UI Tests", () => {
         cy.get('div[role*="combobox"]').type("paycheck{enter}")
         cy.get('input[placeholder*="Note"]').type("weekly pay")
         cy.contains('Add Income').click()
-        cy.get('div[class*="transaction-item"]').should(($t) => {
+        cy.get('.transaction-item').should(($t) => {
             expect($t).to.contain('1,000')
             expect($t).to.contain('paycheck')
             expect($t).to.contain('weekly pay')
+        })
+    })
+
+    it("creates a new account", () => {
+        cy.get('a[href*="/accounts"]').click()
+        cy.contains('New').click()
+        cy.get('input[placeholder*="Account name"]').type("Eric")
+        cy.get('input[placeholder*="Balance"]').type("100")
+        cy.contains('Save Account').click()
+    })
+
+    it("deletes all data", () => {
+        cy.get('a[href*="/settings"]').click()
+        cy.contains('Delete data').click()
+        cy.contains('Confirm').click()
+        cy.get('.content').should(($t) => {
+            expect($t).to.contain('Money Tracker Setup')
         })
     })
 })
