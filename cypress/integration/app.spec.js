@@ -46,6 +46,23 @@ describe("Money Tracker UI Tests", () => {
         cy.contains('Save Account').click()
     })
 
+    it("downloads transaction file", () => {
+        cy.get('input[type*="number"]').type("100")
+        cy.get('div[role*="combobox"]').type("food{enter}")
+        cy.get('input[placeholder*="Note"]').type("fancy dinner")
+        cy.contains('Add Expense').click()
+        cy.get('a[href*="/settings"]').click()
+        
+        cy.task('countFiles', 'cypress/downloads').then(before => {
+
+            cy.contains('Export JSON File').click()
+          
+            cy.task('countFiles', 'cypress/downloads').then(after => {
+              expect(after.length).to.be.eq(before.length +1)  
+            })
+          })
+    })
+
     it("deletes all data", () => {
         cy.get('a[href*="/settings"]').click()
         cy.contains('Delete data').click()

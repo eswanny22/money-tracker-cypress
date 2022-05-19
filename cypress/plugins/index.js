@@ -1,9 +1,17 @@
-const { isFileExist } = require('cy-verify-downloads');
+const fs = require('fs')
 
-/**
- * @type {Cypress.PluginConfig}
- */
-// eslint-disable-next-line no-unused-vars
 module.exports = (on, config) => {
-  on('task', { isFileExist })
+  on('task', {
+    countFiles(folderName) {
+      return new Promise((resolve, reject) => {
+        fs.readdir(folderName, (err, files) => {
+          if (err) {
+            return reject(err)
+          }
+
+          resolve(files.length)
+        })
+      })
+    },
+  })
 }
